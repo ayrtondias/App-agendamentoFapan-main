@@ -35,8 +35,10 @@
                 <a href="cadastro_turma.php" id="cadastro" class="list-group-item list-group-item-action bg-light">Cadastro de Turma</a>
                 <br>
                 <a href="cadastro_mat.php" id="cadastro" class="list-group-item list-group-item-action bg-light">Cadastro Materia</a>
-                <a href="visita_tecnica.php" id="visita" class="list-group-item list-group-item-action bg-light">Visita Tecnica</a>
+                <a href="visita_tecnica.php" id="visita" class="list-group-item list-group-item-action bg-light">Agendar Visita Tecnica</a>
+                <a href="lista_vt.php" id="visita" class="list-group-item list-group-item-action bg-light">Listar Visitas Tecnica</a>
                 <a href="frequencia.php" id="frequencia" class="list-group-item list-group-item-action bg-light">Frequencia</a>
                 <a href="relatorio_frequencia.php" id="relatorio" class="list-group-item list-group-item-action bg-light">Relatorio de frequencia</a>
+                <br>
             </div>
         </div>

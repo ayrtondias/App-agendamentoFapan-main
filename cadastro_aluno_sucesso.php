@@ -8,7 +8,7 @@ $data = $_POST['data'];
 $email = $_POST['email'];
 $curso = $_POST['curso'];
 
-$query = "insert into aluno(nome,cpf,data_nasc,email,curso) values ('$nome','$cpf','$data','$email','$curso');";
+$query = "INSERT INTO aluno(nome,cpf,data_nasc,email,curso) values ('$nome','$cpf','$data','$email','$curso');";
 $result = mysqli_query($conn, $query);
 
 if ($result) {

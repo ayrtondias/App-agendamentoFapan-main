@@ -7,7 +7,7 @@ $cpf = $_POST['cpf'];
 $data = $_POST['data'];
 $email = $_POST['email'];
 
-$query = "insert into atendente(nome,cpf,data_nasc,email) values ('$nome','$cpf','$data','$email');";
+$query = "INSERT INTO atendente(nome,cpf,data_nasc,email) values ('$nome','$cpf','$data','$email');";
 $result = mysqli_query($conn, $query);
 
 if ($result) {

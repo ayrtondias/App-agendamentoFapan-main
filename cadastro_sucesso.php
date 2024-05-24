@@ -12,7 +12,7 @@ echo $numero_serie;
 echo "<br>";
 echo $marca;
 
-$query = "insert into equipamentos (numero_identificacao,numero_serie, disponibilidade, marca) values ('".$numero_identificacao."','".$numero_serie."',true,'".$marca."');";
+$query = "INSERT INTO equipamentos (numero_identificacao,numero_serie, disponibilidade, marca) VALUES ('".$numero_identificacao."','".$numero_serie."',true,'".$marca."');";
 $result = mysqli_query($conn, $query);
 if ($result) {
     echo 'Cadastro Realizado';

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Maio-2024 às 11:25
+-- Tempo de geração: 24-Maio-2024 às 12:02
 -- Versão do servidor: 10.4.28-MariaDB
 -- versão do PHP: 8.2.4
 
@@ -172,17 +172,54 @@ CREATE TABLE `frequencia` (
   `data` date NOT NULL,
   `idaluno` int(11) NOT NULL,
   `idmat` int(11) NOT NULL,
-  `presenca` tinyint(1) NOT NULL
+  `presenca` tinyint(1) NOT NULL,
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `frequencia`
 --
 
-INSERT INTO `frequencia` (`data`, `idaluno`, `idmat`, `presenca`) VALUES
-('2024-05-10', 1, 4, 1),
-('2024-05-10', 3, 4, 1),
-('2024-05-09', 1, 4, 1);
+INSERT INTO `frequencia` (`data`, `idaluno`, `idmat`, `presenca`, `id`) VALUES
+('2024-05-10', 1, 4, 1, 12),
+('2024-05-01', 1, 4, 1, 13),
+('2024-05-02', 1, 4, 1, 14),
+('2024-05-03', 1, 4, 1, 15),
+('2024-05-06', 1, 4, 1, 16),
+('2024-05-08', 1, 4, 1, 17),
+('2024-05-09', 1, 4, 1, 18),
+('2024-05-14', 1, 4, 1, 19),
+('2024-05-01', 3, 4, 1, 28),
+('2024-05-02', 3, 4, 1, 30),
+('2024-05-07', 3, 4, 1, 31),
+('2024-05-08', 3, 4, 1, 32),
+('2024-05-09', 3, 4, 1, 33),
+('2024-05-10', 3, 4, 1, 34),
+('2024-05-13', 3, 4, 1, 35),
+('2024-05-14', 3, 4, 1, 36),
+('0000-00-00', 1, 0, 1, 46),
+('0000-00-00', 3, 0, 1, 47);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `frequencia_vt`
+--
+
+CREATE TABLE `frequencia_vt` (
+  `id` int(11) NOT NULL,
+  `data_visita` date NOT NULL,
+  `id_aluno` int(11) NOT NULL,
+  `id_vt` int(11) NOT NULL,
+  `presenca` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `frequencia_vt`
+--
+
+INSERT INTO `frequencia_vt` (`id`, `data_visita`, `id_aluno`, `id_vt`, `presenca`) VALUES
+(21, '2024-05-24', 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -341,6 +378,33 @@ INSERT INTO `users` (`id`, `nome`, `email`, `senha`, `admin`, `ativo`) VALUES
 (6, 'Carlos', 'carlos@gmail.com', '123456', 0, 1),
 (7, 'AYRTON RODRIGUES DIAS', 'ayrton.dias68@gmail.com', '123456', 1, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `visita_tecnica`
+--
+
+CREATE TABLE `visita_tecnica` (
+  `id` int(11) NOT NULL,
+  `curso` varchar(100) NOT NULL,
+  `materia` varchar(100) NOT NULL,
+  `turma` varchar(20) NOT NULL,
+  `data_visita` date NOT NULL,
+  `local` varchar(100) NOT NULL,
+  `endereco` varchar(500) NOT NULL,
+  `inicio` time NOT NULL,
+  `fim` time NOT NULL,
+  `frequencia` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `visita_tecnica`
+--
+
+INSERT INTO `visita_tecnica` (`id`, `curso`, `materia`, `turma`, `data_visita`, `local`, `endereco`, `inicio`, `fim`, `frequencia`) VALUES
+(1, '1', '4', 'CC1', '2024-05-24', 'fapan', 'Tv. Vileta, 1100 - Pedreira, Belém - PA, 66087-422', '08:00:00', '12:00:00', 1),
+(2, '1', '4', 'CC1', '2024-05-27', 'fapan', 'Tv. Vileta, 1100 - Pedreira, Belém - PA, 66087-422', '08:00:00', '12:00:00', 0);
+
 --
 -- Índices para tabelas despejadas
 --
@@ -392,6 +456,18 @@ ALTER TABLE `equipamentos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `frequencia`
+--
+ALTER TABLE `frequencia`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `frequencia_vt`
+--
+ALTER TABLE `frequencia_vt`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `laboratorios`
 --
 ALTER TABLE `laboratorios`
@@ -431,6 +507,12 @@ ALTER TABLE `turma`
 -- Índices para tabela `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `visita_tecnica`
+--
+ALTER TABLE `visita_tecnica`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -474,6 +556,18 @@ ALTER TABLE `equipamentos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
+-- AUTO_INCREMENT de tabela `frequencia`
+--
+ALTER TABLE `frequencia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT de tabela `frequencia_vt`
+--
+ALTER TABLE `frequencia_vt`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
 -- AUTO_INCREMENT de tabela `laboratorios`
 --
 ALTER TABLE `laboratorios`
@@ -502,6 +596,12 @@ ALTER TABLE `salas`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de tabela `visita_tecnica`
+--
+ALTER TABLE `visita_tecnica`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para despejos de tabelas

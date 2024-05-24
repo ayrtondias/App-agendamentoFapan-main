@@ -2,9 +2,22 @@
 session_start();
 include("conexao.php");
 
-$curso = $_GET['curso'];
-$turma = $_GET['turma'];
-$materia = $_GET['materia'];
+$id= $_GET['id'];
+
+$sql = "SELECT * FROM visita_tecnica WHERE id = '$id'";
+$resultado = $conn->query($sql);
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $curso = $row['curso'];
+            $turma = $row['turma'];
+            $materia = $row['materia'];
+            $data_visita = $row['data_visita'];
+            $local = $row['local'];
+            $endereco = $row['endereco'];
+            $inicio = $row['inicio'];
+            $fim = $row['fim'];
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +25,7 @@ $materia = $_GET['materia'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de frequencia</title>
+    <title>Frequencia visita técnica</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="../assets/fapan.png">
@@ -45,9 +58,9 @@ $materia = $_GET['materia'];
             
             <div class="card" id="card-body">
                 <div class="card-body" >
-                    <h1 class="mt-4 mb-4" style="text-align: center;">Lista de frequencia</h1>
+                    <h1 class="mt-4 mb-4" style="text-align: center;">Frequencia visita técnica</h1>
                     
-                    <form action="lista_frequencia_sucesso.php?materia=<?php echo $materia . '&turma=' . $turma?>" method="POST">
+                    <form action="frequencia_vt_sucesso.php?id=<?php echo $id . '&data_visita=' . $data_visita?>" method="POST">
                     <table>
                         <thead>
                             <tr>
@@ -85,7 +98,7 @@ $materia = $_GET['materia'];
                                     ?>
                                 </td>
                                 <td><?php echo $turma ?></td>
-                                <td> <input type = "date" required class="form-control" id = "data" name = "data"  value="<?php echo date("Y-m-d"); ?>" style="border: none;"></td>
+                                <td> <?php echo date('d/m/Y', strtotime($data_visita)); ?></td>
                             </tr>
                             <tr>
                             <th>Professor</th>
@@ -103,11 +116,29 @@ $materia = $_GET['materia'];
                                     ?>
                                 </td>
                             </tr>
+                            <tr>
+                                <th>Local</th>
+                                <th colspan="2">Endereço</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $local?></td>
+                                <td colspan="2"><?php echo $endereco?></td>
+                            </tr>
                         </tbody>
                     </table>
-                    <br>
-
                     
+                    <table>
+                        <tr>
+                            <th colspan="4" style="text-align: center;">Horario da visita</th>
+                        </tr>
+                        <tr>
+                            <th>Inicio</th>
+                            <td><?php echo $inicio?></td>
+                            <th>Fim</th>
+                            <td><?php echo $fim?></td>
+                        </tr>
+                    </table>
+                    <br>                    
                     <table>
                         <thead>
                             <tr>                                

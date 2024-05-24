@@ -6,7 +6,7 @@ $nome_mat = $_POST['nome_mat'];
 $curso = $_POST['curso'];
 
 
-$query = "insert into materia (nome, curso) values ('$nome_mat', '$curso');";
+$query = "INSERT INTO materia (nome, curso) values ('$nome_mat', '$curso');";
 $result = mysqli_query($conn, $query);
 if ($result) {
     echo 'Cadastro Realizado';
