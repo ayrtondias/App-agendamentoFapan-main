@@ -1,27 +1,25 @@
 <?php
 session_start();
-include('conexao.php');
+include("conexao.php");
 
-if(isset($_GET['user'])) {
-    $id_user = $_GET['user'];
-
-    $sql = "SELECT * FROM users WHERE id = $id_user";
-    $result = mysqli_query($conn, $sql);
-
-    if($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $nome = $row['nome'];
-        $email = $row['email'];
-    } else {
-        $_SESSION['erro'] = "Usuário não encontrado.";
-        header("Location: pagina_de_erro.php");
-        exit();
-    }
-} else {
-    $_SESSION['erro'] = "ID do usuário não fornecido.";
-    header("Location: pagina_de_erro.php");
-    exit();
+if($_SESSION['funcao'] == 1){
+    $funcao = "professor";
+} else if($_SESSION['funcao'] == 2){
+    $funcao = "professor";
+} else if($_SESSION['funcao'] == 3){
+    $funcao = "atendente";
 }
+    $id_user = $_SESSION['id'];
+    $sql = "SELECT * FROM $funcao f JOIN users u WHERE id_user = $id_user";
+    $resultado = $conn->query($sql);                      
+    if ($resultado->num_rows > 0) {
+        while ($row = $resultado->fetch_assoc()) {
+            $nome = $row['nome'];
+            $cpf = $row['cpf'];
+            $data_nasc = $row['data_nasc'];
+            $email = $row['email'];
+        }
+    } 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +27,7 @@ if(isset($_GET['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Formulário</title>
+    <title>Cadastro Professor</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="../assets/fapan.png">
@@ -40,27 +38,45 @@ if(isset($_GET['user'])) {
     <?php include("menulateral.php"); ?>
         
         <div id="page-content-wrapper" class="container-fluid">
-            <h1 class="mt-4 mb-4">Editar Usuário</h1>
+            
             <div class="card">
                 <div class="card-body">
-                    <?php if(isset($_SESSION['sucesso'])): ?>
-                        <div class="alert alert-success" role="alert"><?=$_SESSION['sucesso']?></div>
-                        <?php unset($_SESSION['sucesso']); endif; ?>
-                    <h2 class="card-title text-center">Editar Usuário</h2>
-                    <form method="post" action="atualizar_user.php" class="form">
-                        <div class="form-group">
-                            <label for="nome">Nome</label>
-                            <input type="text" id="nome" name="nome" class="form-control" required value="<?=$nome?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Número de Série</label>
-                            <input type="email" id="email" name="email" class="form-control" required value="<?=$email?>">
-                        </div>
-                        <input type="hidden" name="id_user" value="<?=$id_user?>">
-                        <button type="submit" class="btn btn-primary btn-block">Finalizar Alterações</button><br>
-                        
-                    </form>
-                        <a href="listausuarios.php"><button class="btn btn-primary btn-block">Voltar para lista de usuários</button></a>
+                    <h1 class="mt-4 mb-4" style="text-align: center;">Editar</h1>
+
+                    <form action="editaruser_sucesso.php" method="POST">
+                    <input type="hidden" name="user" value="<?=$_SESSION['id']?>">
+                    <input type="hidden" name="funcao" value="<?=$_SESSION['funcao']?>">
+                    <label for = "nome">
+                        Nome
+                    </label>
+                <input type="text" required class="form-control" name="nome" value="<?php echo $nome ?>">
+                <br>
+                <label for = "cpf">
+                        CPF
+                </label>
+                <input type="text" required class="form-control" name="cpf" value="<?php echo $cpf ?>">
+                <br>
+                <label for = "datanascimento">
+                        Data de Nascimento
+                </label>
+                <input type = "date" required class="form-control" id = "data" name = "data" value="<?php echo date('Y-m-d', strtotime($data_nasc)) ?>">
+                <br>
+                <label for = "email">
+                        E-mail
+                </label>
+                <input type="text" required class="form-control" name="email" value="<?php echo $email ?>">
+                <br>
+                <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" class="form-control" name="senha" id="senha" placeholder="Digite sua senha">
+                </div>
+                <div class="form-group">
+                    <label for="confirmasenha">Confirmar Senha:</label>
+                    <input type="password" class="form-control" name="confirmasenha" id="confirmasenha" placeholder="Digite a senha novamente">
+                </div>
+                <br>
+                <button type="submit" class="form-control btn-primary">Cadastrar</button>
+                </form>
                 </div>
             </div>
         </div>

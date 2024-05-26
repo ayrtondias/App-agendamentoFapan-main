@@ -33,33 +33,75 @@ include("checkAdmin.php");
                     <th scope="col">Nome</th>
                     <th scope="col">E-mail</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Admin</th>
-                    <th scope="col">Ações</th>
+                    <th scope="col">Função</th>
+                    <th scope="col" colspan="2" style="text-align: center;">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php
-                            $sql = "select id, nome, email, ativo, admin from users;";
+                    <?php                
+
+                            $sql = "SELECT * FROM users;";
                             $result = mysqli_query($conn, $sql);
-                            if ($result) {
+                            if ($result->num_rows > 0) {
                                 while ($assoc = mysqli_fetch_assoc($result)) {
-                                    echo '
-                                    <tr>
-                                    <td>'.$assoc['nome'].'</th>
+                                    $user = $assoc['id'];
+                                    
+                                    if($assoc['funcao'] == 1){ 
+                                        $sql1 = "SELECT * FROM administrador WHERE id_user = $user";
+                                        $resultado = mysqli_query($conn, $sql1);
+                                        if ($resultado->num_rows > 0) {
+                                            while ($row = mysqli_fetch_assoc($resultado)) {
+                                                if($row['old_funcao'] == 2){
+                                                    $funcao = "professor";
+                                                } else if($row['old_funcao'] == 3){
+                                                    $funcao = "atendente";
+                                                }
+                                            }
+                                        }                                        
+                                    } else if($assoc['funcao'] == 2){
+                                        $funcao = "professor";
+                                    } else if($assoc['funcao'] == 3){
+                                        $funcao = "atendente";
+                                    }   
+                                    
+                                    echo '<tr>';
+                                    $query = "SELECT * FROM $funcao WHERE id_user = $user";
+                                    $resultado = mysqli_query($conn, $query);
+                                    if ($resultado->num_rows > 0) {
+                                        while ($row = mysqli_fetch_assoc($resultado)) {
+                                            $nome = $row['nome'];
+                                        }
+                                    }
+                                    echo '<td>'.$nome.'</th>
                                     <td>'.$assoc['email'].'</th>
-                                    <td>'.($assoc['ativo'] == 0 ? 'Bloqueado' : 'Ativo').'</td>
-                                    <td>'.($assoc['admin'] == 1 ? 'Administrador' : 'Não').'</td>';
+                                    <td>'.($assoc['ativo'] == 0 ? 'Bloqueado' : 'Ativo').'</td>';
+
+                                    if($assoc['funcao'] == 1){                                        
+                                        echo '<td>Administrador</td>';
+                                    } else if($assoc['funcao'] == 2){                                        
+                                        echo '<td>Professor</td>';
+                                    } else if($assoc['funcao'] == 3){                                        
+                                        echo '<td>Atendente</td>';
+                                    }                                    
                                     if($assoc['ativo']==0){
-                                        echo '<td><a href = "liberaruser_sucesso.php?user='.$assoc['id'].'"><button type="button" class="btn btn-success">Desbloquear</button></a><a href = "editaruser.php?user='.$assoc['id'].'"><button type="button" class="btn btn-primary btn-editar">Editar</button></a></td>';
+                                        echo '<td><a href = "liberaruser_sucesso.php?user='.$assoc['id'].'"><button type="button" class="btn btn-success">Desbloquear</button></a></td>';
                                     }
                                     else {
-                                        echo '<td><a href = "bloquearuser_sucesso.php?user='.$assoc['id'].'"><button type="button" class="btn btn-danger">Bloquear</button></a><a href = "editaruser.php?user='.$assoc['id'].'"><button type="button" class="btn btn-primary btn-editar">Editar</button></a></td>';
+                                        echo '<td><a href = "bloquearuser_sucesso.php?user='.$assoc['id'].'"><button type="button" class="btn btn-danger">Bloquear</button></a></td>';
+                                        if($assoc['funcao'] == 1){
+                                            echo '<td></td>';
+                                        } else{
+                                            echo '<td><a href="admin_sucesso.php?user='.$assoc['id'].'"><button type="button" class="btn btn-primary">Tornar admin</button></td>';
+                                        }
                                     }
                                     echo '</tr>';
+                                    
                                 }
+                                
                             } else {
                                 echo "Erro ao executar a consulta: " . mysqli_error($connect);
                             }
+                        
                 ?>
                     </tbody>
                     </table>

@@ -31,9 +31,15 @@
                         <?php unset($_SESSION['errolaboratorio']); endif; ?>
                         <form action="agendarlaboratorio_sucesso.php" method="POST">
                         <input type="hidden" name="user" value="<?=$_SESSION['id']?>">
-                            <label for = "data">
-                            Selecione a data do agendamento:
-                        </label>
+
+                    <label for="solicitante">
+                        Nome do solicitante
+                    </label>
+                    <input type="text" require class="form-control" id="solicitante" name="solicitante">
+                    <br>
+                    <label for = "data">
+                        Selecione a data do agendamento:
+                    </label>
                     <input type = "date" required class="form-control" id = "data" name = "data">
                     <br>
                     <label for = "turno">

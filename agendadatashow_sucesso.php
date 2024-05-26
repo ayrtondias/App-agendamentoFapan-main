@@ -2,7 +2,9 @@
 
 include('conexao.php');
 
+
 $user = $_POST['user'];
+$solicitante = $_POST['solicitante'];
 $datashow = $_POST['datashow'];
 $data = $_POST['data'];
 $turno = $_POST['turno'];
@@ -20,7 +22,7 @@ $rowVerifica = mysqli_num_rows($resultVerifica);
      $_SESSION['errodatashow'] = "Já existe um agendamento para esta data e turno.";
      header("location: agendadatashow.php");
  } else {
-     $query = "INSERT INTO agendamentodatashow (dataturno, turno, equipamento, ativo, usuario) VALUES ('".$data."',".$turno.", ".$datashow.", 1, ".$user.");";
+     $query = "INSERT INTO agendamentodatashow (solicitante, dataturno, turno, equipamento, ativo, usuario) VALUES ('$solicitante','".$data."',".$turno.", ".$datashow.", 1, ".$user.");";
      $result = mysqli_query($conn, $query);
 
      if ($result) {

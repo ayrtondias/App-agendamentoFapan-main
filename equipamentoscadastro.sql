@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Maio-2024 às 12:02
+-- Tempo de geração: 26-Maio-2024 às 02:42
 -- Versão do servidor: 10.4.28-MariaDB
 -- versão do PHP: 8.2.4
 
@@ -24,11 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `administrador`
+--
+
+CREATE TABLE `administrador` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `old_funcao` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `administrador`
+--
+
+INSERT INTO `administrador` (`id`, `nome`, `email`, `id_user`, `old_funcao`) VALUES
+(4, 'AYRTON RODRIGUES DIAS', 'ayrton.dias68@gmail.com', 1, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `agendamentodatashow`
 --
 
 CREATE TABLE `agendamentodatashow` (
   `id` int(11) NOT NULL,
+  `solicitante` varchar(100) NOT NULL,
   `dataturno` varchar(30) DEFAULT NULL,
   `equipamento` int(100) NOT NULL,
   `turno` int(1) DEFAULT NULL,
@@ -40,9 +62,8 @@ CREATE TABLE `agendamentodatashow` (
 -- Extraindo dados da tabela `agendamentodatashow`
 --
 
-INSERT INTO `agendamentodatashow` (`id`, `dataturno`, `equipamento`, `turno`, `ativo`, `usuario`) VALUES
-(33, '2023-12-06', 14, 2, 1, 5),
-(34, '2023-12-08', 14, 2, 1, 3);
+INSERT INTO `agendamentodatashow` (`id`, `solicitante`, `dataturno`, `equipamento`, `turno`, `ativo`, `usuario`) VALUES
+(36, 'ayrton', '2024-05-28', 15, 1, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -52,6 +73,7 @@ INSERT INTO `agendamentodatashow` (`id`, `dataturno`, `equipamento`, `turno`, `a
 
 CREATE TABLE `agendamentolaboratorio` (
   `id` int(11) NOT NULL,
+  `solicitante` varchar(100) NOT NULL,
   `laboratorio` int(100) DEFAULT NULL,
   `dataturno` varchar(30) DEFAULT NULL,
   `turno` int(1) DEFAULT NULL,
@@ -63,10 +85,8 @@ CREATE TABLE `agendamentolaboratorio` (
 -- Extraindo dados da tabela `agendamentolaboratorio`
 --
 
-INSERT INTO `agendamentolaboratorio` (`id`, `laboratorio`, `dataturno`, `turno`, `ativo`, `usuario`) VALUES
-(36, 16, '2023-12-16', 1, 0, 5),
-(37, 17, '2023-12-17', 3, 1, 3),
-(38, 17, '2023-12-16', 1, 1, 1);
+INSERT INTO `agendamentolaboratorio` (`id`, `solicitante`, `laboratorio`, `dataturno`, `turno`, `ativo`, `usuario`) VALUES
+(39, 'ayrton', 15, '2024-05-27', 1, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -96,27 +116,24 @@ INSERT INTO `aluno` (`id_aluno`, `nome`, `cpf`, `data_nasc`, `email`, `curso`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `aluno_turma`
---
-
-CREATE TABLE `aluno_turma` (
-  `id_aluno` int(11) NOT NULL,
-  `nome_turma` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `atendente`
 --
 
 CREATE TABLE `atendente` (
-  `idaten` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `data_nasc` varchar(15) NOT NULL,
-  `email` varchar(100) NOT NULL
+  `email` varchar(100) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `atendente`
+--
+
+INSERT INTO `atendente` (`id`, `nome`, `cpf`, `data_nasc`, `email`, `id_user`) VALUES
+(1, 'atendente1', '12345678901', '2000-01-20', 'atendente01@gmail.com', 10);
 
 -- --------------------------------------------------------
 
@@ -274,15 +291,16 @@ CREATE TABLE `professor` (
   `cpf` varchar(11) NOT NULL,
   `data_nasc` varchar(15) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `idprof` int(11) NOT NULL
+  `idprof` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `professor`
 --
 
-INSERT INTO `professor` (`nome`, `cpf`, `data_nasc`, `email`, `idprof`) VALUES
-('AYRTON RODRIGUES DIAS', '022.562.171', '1994-06-27', 'ayrton.dias68@gmail.com', 1);
+INSERT INTO `professor` (`nome`, `cpf`, `data_nasc`, `email`, `idprof`, `id_user`) VALUES
+('AYRTON RODRIGUES DIAS', '022.562.171', '1994-06-27', 'ayrton.dias68@gmail.com', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -359,10 +377,9 @@ INSERT INTO `turma` (`nome`, `curso`, `serie`, `periodo`, `turno`, `id_sala`) VA
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `nome` varchar(35) DEFAULT NULL,
   `email` varchar(75) DEFAULT NULL,
   `senha` varchar(35) DEFAULT NULL,
-  `admin` tinyint(1) DEFAULT NULL,
+  `funcao` tinyint(1) DEFAULT NULL,
   `ativo` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -370,13 +387,9 @@ CREATE TABLE `users` (
 -- Extraindo dados da tabela `users`
 --
 
-INSERT INTO `users` (`id`, `nome`, `email`, `senha`, `admin`, `ativo`) VALUES
-(1, 'Kajin', 'admin@gmail.com', 'admin123', 1, 1),
-(3, 'Jorge', 'salesjorge10@gmail.com', '12345678', 0, 1),
-(4, 'professores', 'professoresteste@gmail.com', 'teste1234', 0, 1),
-(5, 'Felipe Carlos', 'exper15gamer@gmail.com', 'felipe123', 0, 1),
-(6, 'Carlos', 'carlos@gmail.com', '123456', 0, 1),
-(7, 'AYRTON RODRIGUES DIAS', 'ayrton.dias68@gmail.com', '123456', 1, 1);
+INSERT INTO `users` (`id`, `email`, `senha`, `funcao`, `ativo`) VALUES
+(1, 'ayrton.dias68@gmail.com', 'e10adc3949ba59abbe56e057f20f883e', 1, 1),
+(10, 'atendente01@gmail.com', 'bfd81ee3ed27ad31c95ca75e21365973', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -410,6 +423,12 @@ INSERT INTO `visita_tecnica` (`id`, `curso`, `materia`, `turma`, `data_visita`, 
 --
 
 --
+-- Índices para tabela `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `agendamentodatashow`
 --
 ALTER TABLE `agendamentodatashow`
@@ -432,16 +451,10 @@ ALTER TABLE `aluno`
   ADD PRIMARY KEY (`id_aluno`);
 
 --
--- Índices para tabela `aluno_turma`
---
-ALTER TABLE `aluno_turma`
-  ADD PRIMARY KEY (`id_aluno`,`nome_turma`);
-
---
 -- Índices para tabela `atendente`
 --
 ALTER TABLE `atendente`
-  ADD PRIMARY KEY (`idaten`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `curso`
@@ -520,16 +533,22 @@ ALTER TABLE `visita_tecnica`
 --
 
 --
+-- AUTO_INCREMENT de tabela `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de tabela `agendamentodatashow`
 --
 ALTER TABLE `agendamentodatashow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de tabela `agendamentolaboratorio`
 --
 ALTER TABLE `agendamentolaboratorio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de tabela `aluno`
@@ -541,7 +560,7 @@ ALTER TABLE `aluno`
 -- AUTO_INCREMENT de tabela `atendente`
 --
 ALTER TABLE `atendente`
-  MODIFY `idaten` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `curso`
@@ -595,7 +614,7 @@ ALTER TABLE `salas`
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `visita_tecnica`

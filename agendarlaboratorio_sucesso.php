@@ -3,6 +3,7 @@
 include('conexao.php');
 
 $user = $_POST['user'];
+$solicitante = $_POST['solicitante'];
 $nomesala = $_POST['nome_sala'];
 $data = $_POST['data'];
 $turno = $_POST['turno'];
@@ -20,7 +21,7 @@ $rowVerifica = mysqli_num_rows($resultVerifica);
      $_SESSION['errolaboratorio'] = "Já existe um agendamento para esta data e turno.";
      header("location: agendarlaboratorio.php");
  } else {
-        $query = "insert into agendamentolaboratorio (dataturno , laboratorio, turno, ativo, usuario) values ('".$data."',".$nomesala.",".$turno.", 1, ".$user.");";
+        $query = "insert into agendamentolaboratorio (solicitante, dataturno , laboratorio, turno, ativo, usuario) values ('$solicitante','".$data."',".$nomesala.",".$turno.", 1, ".$user.");";
         $result = mysqli_query($conn, $query);
         if ($result) {
             echo 'Cadastro Realizado';

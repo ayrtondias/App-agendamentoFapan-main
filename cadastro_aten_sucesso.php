@@ -7,7 +7,16 @@ $cpf = $_POST['cpf'];
 $data = $_POST['data'];
 $email = $_POST['email'];
 
-$query = "INSERT INTO atendente(nome,cpf,data_nasc,email) values ('$nome','$cpf','$data','$email');";
+$senha = $cpf;
+
+$criptosenha= md5($senha);
+
+$sql = "INSERT INTO users(email, senha, funcao, ativo) VALUES  ('$email', '$criptosenha',3, TRUE)";
+$result = mysqli_query($conn, $sql);
+
+$id_user = mysqli_insert_id($conn);
+
+$query = "INSERT INTO atendente(nome,cpf,data_nasc,email,id_user) VALUES ('$nome','$cpf','$data','$email','$id_user');";
 $result = mysqli_query($conn, $query);
 
 if ($result) {

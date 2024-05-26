@@ -30,9 +30,8 @@ include("conexao.php");
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                    <?php if($_SESSION['admin']==true): ?>
                     <th scope="col">Usuário</th>
-                    <?php endif?>
+                    <th scope="col">Solicitante</th>
                     <th scope="col">Recurso ID</th>
                     <th scope="col">Recurso Marca</th>
                     <th scope="col">Data</th>
@@ -43,20 +42,55 @@ include("conexao.php");
                     </thead>
                     <tbody>
                     <?php
-                        if($_SESSION['admin']==true) {
-                            $sql = "select agendamentodatashow.equipamento as datashow_id, equipamentos.numero_identificacao as datashow_identificacao, equipamentos.marca as datashow_marca, agendamentodatashow.id as agendamento_id, agendamentodatashow.dataturno as agendamentodataturno, agendamentodatashow.turno as agendamentoturno, agendamentodatashow.ativo as agendamentoativo, users.nome as usuario from agendamentodatashow inner join equipamentos on agendamentodatashow.equipamento = equipamentos.id inner join users on agendamentodatashow.usuario = users.id ORDER BY agendamento_id DESC;";
-                        }
-                        else {
-                            $sql = "select agendamentodatashow.equipamento as datashow_id, equipamentos.numero_identificacao as datashow_identificacao, equipamentos.marca as datashow_marca, agendamentodatashow.id as agendamento_id, agendamentodatashow.dataturno as agendamentodataturno, agendamentodatashow.turno as agendamentoturno, agendamentodatashow.ativo as agendamentoativo, users.id as user_id from agendamentodatashow inner join equipamentos on agendamentodatashow.equipamento = equipamentos.id inner join users on agendamentodatashow.usuario = users.id WHERE users.id = ".$_SESSION['id']." ORDER BY agendamento_id DESC;";
-                        }
+                    if($_SESSION['funcao'] == 1){
+                        $funcao = "professor";
+                    } else if($_SESSION['funcao'] == 2){
+                        $funcao = "professor";
+                    } else if($_SESSION['funcao'] == 3){
+                        $funcao = "atendente";
+                    }
+                        
+                            $sql = "SELECT agendamentodatashow.equipamento as datashow_id, 
+                            equipamentos.numero_identificacao as datashow_identificacao, 
+                            equipamentos.marca as datashow_marca,
+                            agendamentodatashow.solicitante as nome, 
+                            agendamentodatashow.id as agendamento_id, 
+                            agendamentodatashow.dataturno as agendamentodataturno, 
+                            agendamentodatashow.turno as agendamentoturno, 
+                            agendamentodatashow.ativo as agendamentoativo,
+                            agendamentodatashow.usuario as usuario_id 
+                            FROM agendamentodatashow 
+                            inner join equipamentos on agendamentodatashow.equipamento = equipamentos.id  
+                            ORDER BY agendamento_id DESC;";                        
                             $result = mysqli_query($conn, $sql);
                             if ($result) {
                                 while ($assoc = mysqli_fetch_assoc($result)) {
-                                    echo '<tr>';
-                                    if($_SESSION['admin']==true) {
-                                    echo '<th scope="row">'.$assoc['usuario'].'</th>';
+                                    $usuario = $assoc['usuario_id'];
+                                    $query = "SELECT * FROM users where id = $usuario";
+                                    $resultado = mysqli_query($conn, $query);
+                                    if ($resultado) {
+                                        while ($row = mysqli_fetch_assoc($resultado)) {
+                                            $funcao_id = $row['funcao'];
+                                            if($funcao_id == 1){
+                                                $funcao = "administrador";
+                                            } else if($funcao_id == 2){
+                                                $funcao = "professor";
+                                            } else if($funcao_id == 3){
+                                                $funcao = "atendente";
+                                            }
+                                                $sql = "SELECT * FROM $funcao p JOIN users u WHERE id_user = $usuario";
+                                                $resultado = $conn->query($sql);                      
+                                                if ($resultado->num_rows > 0) {
+                                                    while ($row = $resultado->fetch_assoc()) {
+                                                        $nome = $row['nome'] ;
+                                                    }
+                                                } 
+                                        }
                                     }
-                                    echo '<th scope="row">'.$assoc['datashow_identificacao'].'</th>
+                                    echo '<tr>';
+                                    echo '<th scope="row">'.$nome.'</th>';
+                                    echo '<th scope="row">'.$assoc['nome'].'</th>
+                                    <th scope="row">'.$assoc['datashow_identificacao'].'</th>
                                     <th scope="row">'.$assoc['datashow_marca'].'</th>
                                     <td>'.date('d/m/Y', strtotime($assoc['agendamentodataturno'])).'</td>
                                     <td>'.($assoc['agendamentoturno'] == 1 ? 'Manhã' : ($assoc['agendamentoturno'] == 2 ? 'Tarde' : ($assoc['agendamentoturno'] == 3 ? 'Noite' : 'Não'))) .'</td>

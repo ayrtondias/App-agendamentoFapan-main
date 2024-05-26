@@ -1,4 +1,4 @@
 <?php
-if($_SESSION['admin']==false) {
+if($_SESSION['funcao']!=1) {
     header("location: menu.php");
 }
