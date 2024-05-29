@@ -5,7 +5,7 @@
         $materia = $_GET['materia'];
         $mes = isset($_GET['mes']) ? $_GET['mes'] : 1;
         setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'portuguese'); 
-        echo "O mês selecionado é: " . $mes;       
+               
 
         // Calcular o número total de dias no mês atual
             $mes_atual = date('m');

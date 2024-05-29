@@ -74,7 +74,7 @@ session_start();
             </div>
             <button type="submit" class="btn btn-primary btn-block">Entrar</button>
         </form>
-        <p class="mt-3 text-center">Ainda não tem uma conta? <a href="register.php">Crie uma agora</a>.</p>
+        
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

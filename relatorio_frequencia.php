@@ -73,7 +73,7 @@ session_start();
                                     </select>
                                 <br>
                             <br>
-                            <button type="submit" class="form-control btn-primary">Cadastrar</button>
+                            <button type="submit" class="form-control btn-primary">Gerar</button>
 
                 </form>
                 </div>
