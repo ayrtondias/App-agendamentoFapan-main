@@ -4,7 +4,7 @@
     <?php
 
         if($_SESSION['funcao'] == 1){
-            $funcao = "professor";
+            $funcao = "administrador";
         } else if($_SESSION['funcao'] == 2){
             $funcao = "professor";
         } else if($_SESSION['funcao'] == 3){
@@ -60,7 +60,7 @@
                 <a href="visita_tecnica.php" id="visita_tecnica" class="list-group-item list-group-item-action bg-light">Agendar Visita Tecnica</a>
                 <a href="lista_vt.php" id="lista_vt" class="list-group-item list-group-item-action bg-light">Listar Visitas Tecnica</a>
                 <a href="frequencia.php" id="frequencia" class="list-group-item list-group-item-action bg-light">Frequencia</a>
-                <a href="relatorio_frequencia.php" id="relatorio_frequencia" class="list-group-item list-group-item-action bg-light">Relatorio de frequencia</a>
+                <a href="relatorio_frequencia.php" id="relatorio_frequencia" class="list-group-item list-group-item-action bg-light">Frequencia Mensal</a>
                 <br>
                 <a href="editaruser.php" id="editaruser" class="list-group-item list-group-item-action bg-light">Editar usuario</a>
                 <br>

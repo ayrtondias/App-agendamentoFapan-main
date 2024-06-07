@@ -4,8 +4,8 @@ include("conexao.php");
 $curso = $_GET['curso'];
 $turma = $_GET['turma'];
 $materia = $_GET['materia'];
-$mes = isset($_GET['mes']) ? $_GET['mes'] : 1;
-setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'portuguese');
+$mes = $_GET['mes'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,14 +39,19 @@ setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'portuguese');
             text-align: center;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateMes();
+        });
+    </script>
+    
 </head>
 <body>
 <div class="d-flex" id="wrapper">
-    <?php include("menulateral.php"); ?>
         
         <div id="page-content-wrapper" class="container-fluid">
             
-            <div class="card">
+            <div class="card2 " style="display: inline-block; overflow: auto;background-color: white;">
                 <h1 class="mt-4 mb-4" style="text-align: center;">Relatorio de Frequência Mensal</h1>
 
                     <table>
@@ -86,22 +91,22 @@ setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'portuguese');
                                     ?>
                                 </td>
                                 <td><?php echo $turma ?></td>
-                                <td> 
-                                    <select name="mes" id="mes" style="border: none;" onchange="updateMes()">
-                                    <option value="">Selecione Mes</option>
-                                        <option value="01">Janeiro</option>
-                                        <option value="02">Fevereiro</option>
-                                        <option value="03">Março</option>
-                                        <option value="04">Abril</option>
-                                        <option value="05">Maio</option>
-                                        <option value="06">Junho</option>
-                                        <option value="07">Julho</option>
-                                        <option value="08">Agosto</option>
-                                        <option value="09">Setembro</option>
-                                        <option value="10">Outubro</option>
-                                        <option value="11">Novembro</option>
-                                        <option value="12">Dezembro</option>
-                                    </select>
+                                <td>                                
+                                    <label for="">
+                                        <?php 
+                                            if($mes == '01'){ echo "Janeiro";} else
+                                            if($mes == '02'){ echo "Fevereiro";} else
+                                            if($mes == '03'){ echo "Março";} else
+                                            if($mes == '04'){ echo "Abril";} else
+                                            if($mes == '05'){ echo "Maio";} else
+                                            if($mes == '06'){ echo "Junho";} else
+                                            if($mes == '07'){ echo "Julho";} else
+                                            if($mes == '08'){ echo "Agosto";} else
+                                            if($mes == '09'){ echo "Setembro";} else
+                                            if($mes == '10'){ echo "Outubro";} else
+                                            if($mes == '11'){ echo "Novembro";} else
+                                            if($mes == '12'){ echo "Dezembro";} 
+                                        ?></label>
                                 </td>
                             </tr>
                             <tr>
@@ -121,66 +126,38 @@ setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'portuguese');
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
-                    
-                <div class="card-body" style="overflow-y: auto;">         
-                  <div id="resultado-php"></div>
-                  <br>
-                    <button class='print-button' onclick='printContent()'>Imprimir</button>
-                    
+
+                    </table>        
+                  <div id="resultado-php">
                 </div>
-                <br>
-                
+                <br><br>
+                <div style="text-align: center;">
+                    <label for="">X_________________________________________</label>
+                    <br>
+                    <label for="">Assinatura do responsável</label>
+                </div>
         </div>
     </div>
 </div>
 <script>
-    function updateMes() {
-    var mesSelecionado = document.getElementById("mes").value;
-    var xhr = new XMLHttpRequest();
+function updateMes() {
+    var curso = "<?php echo $curso; ?>";
+    var turma = "<?php echo $turma; ?>";
+    var materia = "<?php echo $materia; ?>";
+    var mes = <?php echo $mes?>;
 
+    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById("resultado-php").innerHTML = xhr.responseText;
         }
     };
-
     // Abre a conexão com o PHP para enviar os dados
-    xhr.open("GET", "atualiza_relatorio.php?curso=<?php echo $curso;?>&turma=<?php echo $turma;?>&materia=<?php echo $materia;?>&mes=" + mesSelecionado, true);
+    xhr.open("GET", "atualiza_relatorio.php?curso=" + curso 
+        + '&turma=' + turma + '&materia=' + materia + '&mes=' + mes, true);
 
     // Envia a requisição
     xhr.send();
-}
-
-function atualizar(alunoId, data) {
-    // Verifica o select
-    var select = document.getElementById(alunoId + "_" + data);
-    var presente = select.checked ? 1 : 0; // 1 se estiver presente, 0 se não
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "atualizar_presenca.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            
-        }
-    };
-    xhr.send("aluno_id=" + alunoId + "&data=" + data + "&presente=" + presente + "&materia=" + <?php echo $materia;?>);
-}
-
-function printContent() {
-    var curso = "<?php echo $curso; ?>";
-    var turma = "<?php echo $turma; ?>";
-    var materia = "<?php echo $materia; ?>";
-    var mes = document.getElementById("mes").value;
-        var printWindow = window.open('listar_relatorio_frequencia_impressao.php?curso=' + curso 
-        + '&turma=' + turma + '&materia=' + materia + '&mes=' + mes, '_blank');
-        printWindow.onload = function() {
-        printWindow.print();
-        printWindow.onafterprint = function() {
-            printWindow.close();
-        };
-    };
 }
 </script>
 

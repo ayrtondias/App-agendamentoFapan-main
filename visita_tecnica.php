@@ -80,13 +80,39 @@ include("conexao.php");
                                         <label for = "inicio">
                                             Inicio da visita
                                         </label>
-                                        <input type = "time" required class="form-control" id = "inicio" name = "inicio">
+                                        <select id = "inicio" name = "inicio" class="form-control">
+                                            <?php
+                                                for ($hora = 8; $hora <= 21; $hora++) {
+                                                    if($hora == 21){
+                                                        echo "<option value='21:00'>21:00</option>";
+                                                    }else {
+                                                        for ($minuto = 0; $minuto < 60; $minuto += 30) {
+                                                            $horaFormatada = sprintf("%02d:%02d", $hora, $minuto);
+                                                            echo "<option value=\"$horaFormatada\">$horaFormatada</option>";
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="col-sm-3 col-auto">
                                         <label for = "fim">
                                             Fim da visita
                                         </label>
-                                        <input type = "time" required class="form-control" id = "fim" name = "fim">
+                                        <select id = "fim" name = "fim" class="form-control">
+                                            <?php
+                                                for ($hora = 9; $hora <= 22; $hora++) {
+                                                    if($hora == 22){
+                                                        echo "<option value='22:00'>22:00</option>";
+                                                    }else {
+                                                        for ($minuto = 0; $minuto < 60; $minuto += 30) {
+                                                            $horaFormatada = sprintf("%02d:%02d", $hora, $minuto);
+                                                            echo "<option value=\"$horaFormatada\">$horaFormatada</option>";
+                                                        }
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                             <br>

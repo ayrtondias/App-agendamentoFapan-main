@@ -52,7 +52,6 @@ $resultado = $conn->query($sql);
 </head>
 <body>
     <div class="d-flex" id="wrapper">
-    <?php include("menulateral.php"); ?>
         
         <div id="page-content-wrapper" class="container-fluid">
             
@@ -109,6 +108,7 @@ $resultado = $conn->query($sql);
                                     $resultado = $conn->query($sql);                      
                                     if ($resultado->num_rows > 0) {
                                         while ($row = $resultado->fetch_assoc()) {
+                                                $professor = $row['nome'] ;
                                                 echo $row['nome'] ;
                                         }
                                     } 
@@ -156,34 +156,26 @@ $resultado = $conn->query($sql);
                                                 <td colspan='3'>" . $row['nome'] ."
                                                 <input type='hidden'>
                                                 </td>
-                                                <td class='centro'>";
-                                                $id_aluno = $row['id_aluno'];
-
-                                                $select = "SELECT * FROM frequencia_vt where id_vt = $id AND id_aluno = $id_aluno";
-                                                $resultado = $conn->query($select);
-                                                if ($assoc = $resultado->fetch_assoc()) {
-                                                if ($assoc['presenca'] == 1) {
-                                                    echo "<input type='checkbox' id='".$id_aluno."_".$data_visita."' name='presenca' onchange='atualizar(\"$id_aluno\",\"$data_visita\")' checked>";
-                                                } else{
-                                                    echo "<input type='checkbox' id='".$id_aluno."_".$data_visita."' name='presenca' onchange='atualizar(\"$id_aluno\",\"$data_visita\")'>";
-                                                }
-                                                } else{
-                                                    echo "<input type='checkbox' id='".$id_aluno."_".$data_visita."' name='presenca' onchange='atualizar(\"$id_aluno\",\"$data_visita\")'>";
-                                                }
-                                            
-                                                echo "</td>
+                                                <td class='centro'> 
+                                                <input type='checkbox'> 
+                                                </td>
                                                 </tr>";
                                         }
                                     } 
-                                ?>                            
+                                ?>  
+                                                         
                         </tbody>
                     </table>
                     <br>
                     <br>
-                    
-                    <a href="lista_vt.php"><button type="submit" class="form-control btn-primary">Voltar</button></a>
+                    <div style="text-align: center;">
+                    <label for="">X_________________________________________</label>
                     <br>
-                    <button class="print-button" onclick="printContent()">Imprimir</button>
+                    <label for="">Assinatura do responsável</label>
+                    </div>
+                    
+                    
+                    
                     
                 
                 </div>
@@ -204,18 +196,10 @@ $resultado = $conn->query($sql);
             console.log("Resposta do servidor: ", xhr.responseText);
         }
     };
-    xhr.send("id_aluno=" + alunoId   + "&presente=" + presente + "&data_visita=" + data);
+    xhr.send("id_aluno=" + alunoId + "&id=" + <?php echo $id;?>  + "&presente=" + presente + "&data_visita=" + data);
     console.log();
+
 }
-function printContent() {
-            var printWindow = window.open('visita_tecnica_impressao.php?id=' + <?php echo $id;?>, '_blank');
-            printWindow.onload = function() {
-                printWindow.print();
-                printWindow.onafterprint = function() {
-                    printWindow.close();
-                };
-            };
-        }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

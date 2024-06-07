@@ -137,10 +137,27 @@ $materia = $_GET['materia'];
                     <br>
                     <button type="submit" class="form-control btn-primary">Salvar</button>
                 </form>
+                <br>
+                <button class="print-button" onclick="printContent()">Imprimir</button>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function printContent() {
+            var curso = "<?php echo $curso; ?>";
+            var turma = "<?php echo $turma; ?>";
+            var materia = "<?php echo $materia; ?>";
+            
+            var printWindow = window.open('lista_frequencia_impressao.php?curso=' + curso + '&turma=' + turma + '&materia=' + materia, '_blank');
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.onafterprint = function() {
+                    printWindow.close();
+                };
+            };
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,12 +1,13 @@
 <?php
         include("conexao.php");
+        $mes = isset($_GET['mes']) ? str_pad($_GET['mes'], 2, "0", STR_PAD_LEFT) : '';
+
+
         $curso = $_GET['curso'];
         $turma = $_GET['turma'];
         $materia = $_GET['materia'];
-        $mes = isset($_GET['mes']) ? $_GET['mes'] : 1;
-        setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'portuguese'); 
-               
-
+        
+        
         // Calcular o número total de dias no mês atual
             $mes_atual = date('m');
             $ano_atual = date('Y');
@@ -14,7 +15,20 @@
 
             echo "<table>
             <tr>
-            <th colspan='32'>" .  strftime('%B') . "</th>
+            <th colspan='32'>";             
+            if($mes == '01'){ echo "Janeiro";} else
+            if($mes == '02'){ echo "Fevereiro";} else
+            if($mes == '03'){ echo "Março";} else
+            if($mes == '04'){ echo "Abril";} else
+            if($mes == '05'){ echo "Maio";} else
+            if($mes == '06'){ echo "Junho";} else
+            if($mes == '07'){ echo "Julho";} else
+            if($mes == '08'){ echo "Agosto";} else
+            if($mes == '09'){ echo "Setembro";} else
+            if($mes == '10'){ echo "Outubro";} else
+            if($mes == '11'){ echo "Novembro";} else
+            if($mes == '12'){ echo "Dezembro";}
+            echo "</th>
             </tr>";
             echo "<tr>
             <th>Nome</th>";
@@ -69,6 +83,5 @@
                 }
             }
             echo "</table>";
-
            
         ?>
