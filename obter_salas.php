@@ -5,15 +5,20 @@ include("conexao.php");
     if ($turno == "manha") {
         $sql = "SELECT id, nome FROM salas WHERE disponivel_m = true ";
         $result = $conn->query($sql);
-    }
-    if ($turno == "tarde") {
+    }else if ($turno == "tarde") {
         $sql = "SELECT id, nome FROM salas WHERE disponivel_t = 1 ";
         $result = $conn->query($sql);
-    }
+    } else
     if ($turno == "noite") {
         $sql = "SELECT id, nome FROM salas WHERE disponivel_n = 1 ";
         $result = $conn->query($sql);
-    }         
+    } else {
+        $sql = "SELECT id, nome FROM salas WHERE disponivel_m = 1 
+        AND disponivel_t = 1 
+        AND disponivel_n = 1 ";
+        $result = $conn->query($sql);
+        
+    }       
 
     $optionsHTML = "";
 

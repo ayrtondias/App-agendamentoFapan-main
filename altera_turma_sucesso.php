@@ -2,21 +2,32 @@
 
 include('conexao.php');
 
-$nome = $_POST['nome'];
+$nome_turma = $_GET['nome_turma'];
+
 $curso = $_POST['curso'];
 $serie = $_POST['serie'];
 $periodo = $_POST['periodo'];
 $turno = $_POST['turno'];
 $sala = $_POST['sala'];
 
-$query = "INSERT INTO turma(nome,curso,serie,periodo,turno,id_sala) VALUES ('$nome','$curso','$serie','$periodo','$turno','$sala');";
+$query = "UPDATE turma SET
+serie = '$serie',
+periodo = '$periodo',
+turno = '$turno',
+id_sala = '$sala'
+WHERE nome = '$nome_turma';";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    echo 'Cadastro Realizado';
-    session_start();
-    $_SESSION['sucesso']= "Turma cadastrada com sucesso";
-    header("location: cadastro_turma.php");
+
+    header("location: listar_turmas.php");
+    echo 'nome turma: '. $nome_turma . '<br>';
+    echo 'curso: '. $curso .'<br>';
+    echo 'serie: '. $serie .'<br>';
+    echo 'periodo: '. $periodo .'<br>';
+    echo 'turno: '. $turno .'<br>';
+    echo 'sala: '. $sala.'<br>';
+  
 }
 
 else {

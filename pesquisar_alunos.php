@@ -30,11 +30,7 @@ include("conexao.php");
                 echo "</tr>";
             }
         } else {
-            echo "<td>Nenhum aluno encontrado para este curso.</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>";
+            echo "<td coslpan='6'>Nenhum aluno encontrado para este curso.</td>";
         }
 
         // Fechar a conexão com o banco de dados

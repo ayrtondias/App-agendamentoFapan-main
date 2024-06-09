@@ -56,6 +56,7 @@
                 <a href="cadastro_aluno.php" id="cadastro_aluno" class="list-group-item list-group-item-action bg-light">Cadastro de Aluno</a>
                 <a href="cadastro_turma.php" id="cadastro_turma" class="list-group-item list-group-item-action bg-light">Cadastro de Turma</a>
                 <br>
+                <a href="listar_turmas.php" id="listar_turmas" class="list-group-item list-group-item-action bg-light">Lista de Turmas</a>
                 <a href="cadastro_mat.php" id="cadastro_mat" class="list-group-item list-group-item-action bg-light">Cadastro Materia</a>
                 <a href="visita_tecnica.php" id="visita_tecnica" class="list-group-item list-group-item-action bg-light">Agendar Visita Tecnica</a>
                 <a href="lista_vt.php" id="lista_vt" class="list-group-item list-group-item-action bg-light">Listar Visitas Tecnica</a>

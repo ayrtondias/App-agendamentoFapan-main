@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("conexao.php");
+
+$nome_turma = $_GET['nome_turma'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,42 +26,53 @@ include("conexao.php");
                 <div class="card-body">
                     <h1 class="mt-4 mb-4" style="text-align: center;">Cadastro de Turma</h1>
 
-                    <form action="cadastro_turma_sucesso.php" method="POST">
+                    <form action="altera_turma_sucesso.php?nome_turma=<?=$nome_turma?>" method="POST">
+                        <?php 
+                        $sql = "SELECT * FROM turma WHERE nome = '$nome_turma'";
+                        $resultado = $conn->query($sql);
+                        if ($resultado->num_rows > 0) {
+                            while ($assoc = $resultado->fetch_assoc()) {
+                                $curso = $assoc['curso'];
+                                $serie = $assoc['serie'];
+                                $periodo = $assoc['periodo'];
+                                $turno = $assoc['turno'];
+                                $sala = $assoc['id_sala'];
+                            }
+                        }
+                        ?>
                     <input type="hidden" name="user" value="<?=$_SESSION['id']?>">
                     <label for = "nome_da_turma">
                         Nome da turma
                     </label>
-                <input type="text" required class="form-control" name="nome">
+                <input type="text" required class="form-control" name="nome" value="<?= $nome_turma?>" readonly>
                 <br>
+
+                <?php 
+                    $sql = "SELECT * FROM curso WHERE id = $curso";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($assoc = $result->fetch_assoc()) {
+                            $nome_curso = $assoc['nome'];
+                        }
+                    }
+                ?>
                 <label for = "curso">
                         Curso
                 </label>
-                <select id="curso" class="form-control" name="curso">
-                    <option value="">Selecione o Curso</option>
-                    <?php 
-                    $sql = "SELECT * FROM curso ORDER BY nome ASC";
-                    $result = $conn->query($sql);                 
-                    if ($result->num_rows > 0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "<option value='" . $row['id'] . "'>" . $row['nome'] . "</option>";
-                        }
-                    } else {
-                        echo "<option value=''>Nenhuma curso encontrado</option>";
-                    }
-                    
-                    ?>                    
+                <select id="curso" class="form-control" name="curso" <?= $curso?> readonly>
+                    <option value="<?= $curso?>"><?php echo $nome_curso ?> - Curso atual</option>                   
                 </select>
                 <br>
                 <label for = "serie">
                         Serie
                 </label>
-                <input type = "number" required class="form-control" id = "serie" name = "serie">
+                <input type = "number" required class="form-control" id = "serie" name = "serie" value="<?= $serie?>">
                 <br>
                 <label for = "período">
                         Período
                 </label>
                 <select id="periodo" required class="form-control" name="periodo">
-                    <option value="">Selecione periodo</option>
+                    <option value="<?= $periodo?>"><?php echo date('Y') . '/' . $periodo . ' - Salvo'; ?></option>
                     <option value="1"><?php echo date('Y'); ?>/1</option>  
                     <option value="2"><?php echo date('Y'); ?>/2</option>                      
                 </select>
@@ -68,27 +81,36 @@ include("conexao.php");
                         Turno
                 </label>
                 <br>
-                
-                <input type="radio" id="manha" name="turno" value="manha" onclick="atualizarSalas(this.value)">
+                <?php if($turno == "manha"){} ?>
+                <input type="radio" id="manha" name="turno" value="manha" onclick="atualizarSalas(this.value)" <?php if($turno == "manha"){ echo 'checked';}?>>
                 <label for="manha" style="margin-right: 10px;">Manhã</label>
-                <input type="radio" id="tarde" name="turno" value="tarde" onclick="atualizarSalas(this.value)">
+                <input type="radio" id="tarde" name="turno" value="tarde" onclick="atualizarSalas(this.value)" <?php if($turno == "tarde"){ echo 'checked';}?>>
                 <label for="tarde" style="margin-right: 10px;">Tarde</label>
-                <input type="radio" id="noite" name="turno" value="noite" onclick="atualizarSalas(this.value)">
+                <input type="radio" id="noite" name="turno" value="noite" onclick="atualizarSalas(this.value)" <?php if($turno == "noite"){ echo 'checked';}?>>
                 <label for="noite" style="margin-right: 10px;">Noite</label>
-                <input type="radio" id="integral" name="turno" value="integral" onclick="atualizarSalas(this.value)">
+                <input type="radio" id="integral" name="turno" value="integral" onclick="atualizarSalas(this.value)" <?php if($turno == "integral"){ echo 'checked';}?>>
                 <label for="noite" style="margin-right: 10px;">Integral</label>
                 <br><br>
 
+                <?php 
+                    $sql = "SELECT * FROM salas WHERE id = $sala";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($assoc = $result->fetch_assoc()) {
+                            $nome_sala = $assoc['nome'];
+                        }
+                    }
+                ?>
                 <label for = "sala">
                         Sala
                 </label>
                 <select id="sala" class="form-control" name="sala">
-                    <option value="">Selecione um turno</option>                    
+                    <option value="<?=$sala?>"><?php echo $nome_sala?></option>                    
                 </select>
                 
                 <br>
                 <br>
-                <button type="submit" class="form-control btn-primary">Cadastrar</button>
+                <button type="submit" class="form-control btn-primary">Salvar Alterações</button>
                 </form>
                 </div>
             </div>
