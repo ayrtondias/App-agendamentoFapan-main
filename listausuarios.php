@@ -34,7 +34,7 @@ include("checkAdmin.php");
                     <th scope="col">E-mail</th>
                     <th scope="col">Status</th>
                     <th scope="col">Função</th>
-                    <th scope="col" colspan="2" style="text-align: center;">Ações</th>
+                    <th scope="col" colspan="3" style="text-align: center;">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -94,6 +94,9 @@ include("checkAdmin.php");
                                             echo '<td><a href="admin_sucesso.php?user='.$assoc['id'].'"><button type="button" class="btn btn-primary">Tornar admin</button></td>';
                                         }
                                     }
+                                    echo "<td>" . 
+                                    '<a href="delete_user.php?user=' . $user . '")"><button type="button" class="btn btn-danger">Excluir</button></a>'
+                                    . "</td>";
                                     echo '</tr>';
                                     
                                 }

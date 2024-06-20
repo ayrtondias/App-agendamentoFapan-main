@@ -25,9 +25,13 @@ include("conexao.php");
                  <td>" . $row['email'] . "</td>";
                 echo "<td>" . ($row['turma'] ? $row['turma'] : 'Sem turma') . "</td>";
                 echo "<td>" . 
-                '<a href="altera_aluno.php?id_aluno=' . $id_aluno . '")"><button type="button" class="btn btn-danger">Alterar</button></a>'
+                '<a href="altera_aluno.php?id_aluno=' . $id_aluno . '")"><button type="button" class="btn btn-primary">Alterar</button></a>'
+                . "</td>";
+                echo "<td>" . 
+                '<a href="deleta_aluno.php?id_aluno=' . $id_aluno . '")"><button type="button" class="btn btn-danger">Excluir</button></a>'
                 . "</td>";
                 echo "</tr>";
+
             }
         } else {
             echo "<td coslpan='6'>Nenhum aluno encontrado para este curso.</td>";

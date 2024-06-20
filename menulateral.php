@@ -42,7 +42,7 @@
                 <?php if ($_SESSION['funcao'] == 1): ?>
                 <br>
                 <a href="listadatashow.php" id="listadatashow" class="list-group-item list-group-item-action bg-light">Lista de Recursos</a>
-                <a href="listalaboratorio.php" id="listalaboratorio" class="list-group-item list-group-item-action bg-light">Lista de Salas</a>
+                <a href="listalaboratorio.php" id="listalaboratorio" class="list-group-item list-group-item-action bg-light">Lista de Laboratorios</a>
                 <a href="listausuarios.php" id="listausuarios" class="list-group-item list-group-item-action bg-light">Lista de Usuários</a>
                 <a href="cadastro.php" id="cadastro" class="list-group-item list-group-item-action bg-light">Cadastro de Recursos</a>
                 <?php endif; ?>

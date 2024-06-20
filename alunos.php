@@ -59,7 +59,7 @@ include("conexao.php");
                     <th scope="col">CPF</th>
                     <th scope="col">E-mail</th>
                     <th scope="col">turma</th>
-                    <th scope="col">Acão</th>
+                    <th scope="col" colspan="2" style="text-align: center;">Acão</th>
                     </tr>
                     </thead>
                     <tbody id="alunos-container">
